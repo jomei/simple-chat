@@ -2,10 +2,11 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [org.httpkit.server :as httpkit]
+            [simple-chat.views :as views]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (GET "/" [] views/index)
   (route/not-found "Not Found"))
 
 (def app
