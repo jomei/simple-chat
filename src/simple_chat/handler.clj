@@ -31,9 +31,3 @@
 (defn start []
   (def stop
     (httpkit/run-server #'app {:port 3030})))
-
-(comment
-  (require '[vinyasa.pull :as vp])
-  (vp/pull 'http-kit)
-  (vp/pull 'hiccup)
-  (vp/pull 'garden))
