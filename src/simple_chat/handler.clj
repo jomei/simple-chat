@@ -5,23 +5,44 @@
             [org.httpkit.server :as httpkit]
             [simple-chat.views :as views]
             [simple-chat.chat :as chat]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
+            [simple-chat.account :as acc]
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.util.response :as response]))
 
-(defn chat [{params :params :as req}]
+(defn handle-chat [{params :params :as req}]
   (httpkit/with-channel req ch
                         (chat/add-usr ch params)
                         (httpkit/on-receive ch (fn [msg] (chat/on-msg ch msg)))
                         (httpkit/on-close ch (fn [st] (chat/rm-usr ch)))
                         ))
 
-(defn index [{params :params}]
-  {:body (views/index params)
+;; todo: move paths to external ns
+;; todo: move assets paths to external ns
+
+(defn chat [{params :params}]
+  {:body (views/chat params)
    :status 200})
 
+(defn login [{params :params}]
+  {:body (views/login)
+   :status 200})
+
+(defn auth [{params :params}]
+  (let [login (:name params)
+        pass (:password params)]
+    (let [acc (acc/find-by "name" login)]
+      (cond
+        (nil? acc) (do (acc/create {:name login :password pass})
+                        (response/redirect (str "/" login)))
+        (= (:password acc) pass) (response/redirect (str "/" login))
+        :else (response/not-found)))))
+
+
 (defroutes app-routes
-           (GET "/" [] #'index)
-           (GET "/:name" [] #'index)
-           (GET "/chat/:name" [] #'chat)
+           (GET "/" [] #'login)
+           (GET "/:name" [] #'chat)
+           (GET "/chat/:name" [] #'handle-chat)
+           (POST "/auth" [] #'auth)
            (route/resources "/assets/")
            (route/not-found "Not Found"))
 
@@ -31,3 +52,5 @@
 (defn start []
   (def stop
     (httpkit/run-server #'app {:port 3030})))
+;; (stop)
+(start)

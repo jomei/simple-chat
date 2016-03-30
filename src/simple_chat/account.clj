@@ -12,5 +12,5 @@
   (let [hash {(keyword field) value}]
     (exec mc/find-one-as-map hash)))
 
-(defn insert-user [user]
+(defn create [user]
   (exec mc/insert-and-return (merge {:_id (ObjectId.)} user)))
