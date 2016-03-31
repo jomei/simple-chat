@@ -6,6 +6,7 @@
             [simple-chat.views :as views]
             [simple-chat.chat :as chat]
             [simple-chat.account :as acc]
+            [simple-chat.routes :as r]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.util.response :as response]))
 
@@ -39,9 +40,9 @@
 
 
 (defroutes app-routes
-           (GET "/" [] #'login)
-           (GET "/:name" [] #'chat)
-           (GET "/chat/:name" [] #'handle-chat)
+           (GET r/index [] #'login)
+           (GET r/chat [] #'chat)
+           (GET r/reg-socket [] #'handle-chat)
            (POST "/auth" [] #'auth)
            (route/resources "/assets/")
            (route/not-found "Not Found"))
