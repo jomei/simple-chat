@@ -17,8 +17,6 @@
                         (httpkit/on-close ch (fn [st] (chat/rm-usr ch)))
                         ))
 
-;; todo: move paths to external ns
-;; todo: move assets paths to external ns
 
 (defn chat [{params :params}]
   {:body (views/chat params)
@@ -34,8 +32,8 @@
     (let [acc (acc/find-by "name" login)]
       (cond
         (nil? acc) (do (acc/create {:name login :password pass})
-                        (response/redirect (str "/" login)))
-        (= (:password acc) pass) (response/redirect (str "/" login))
+                        (response/redirect (str r/index login)))
+        (= (:password acc) pass) (response/redirect (str r/index login))
         :else (response/not-found)))))
 
 
@@ -43,9 +41,9 @@
            (GET r/index [] #'login)
            (GET r/chat [] #'chat)
            (GET r/reg-socket [] #'handle-chat)
-           (POST "/auth" [] #'auth)
-           (route/resources "/assets/")
-           (route/not-found "Not Found"))
+           (POST r/auth [] #'auth)
+           (route/resources r/assets)
+           (route/not-found r/not-found))
 
 (def app
   (handler/site app-routes))

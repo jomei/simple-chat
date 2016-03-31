@@ -7,15 +7,22 @@
 (defn js-tag [path]
   [:script {:src path}])
 
+
+(defn js-path [file]
+  (str "/assets/js/" file))
+
+(defn css-path [file]
+  (str "/assets/styles/" file))
+
 (defn layout [title & content]
   (hc/html
     [:html
      [:head
         [:title title]]
-        (css-tag "/assets/styles/styles.css")
+        (css-tag (css-path "styles.css"))
      [:body
         [:div.container content]
-        (js-tag "/assets/js/app.js")
+        (js-tag (js-path "app.js"))
       ]]))
 
 (defn chat [{params :params}]
