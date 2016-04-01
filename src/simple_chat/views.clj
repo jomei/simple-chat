@@ -27,14 +27,17 @@
 
 (defn chat [{params :params}]
   (layout "Enjoy"
-          [:div#out "hey"]
-          [:input#inp]))
+          [:div#out "Simple Clojure Chat"]
+          [:input#inp]
+          [:button#send.pull-right "Send"]
+          [:div.clear]
+          ))
 
 (defn login []
   (layout "Simple Clojure Chat"
-          [:form {:method "post" :action "/auth"}
+          [:form.login {:method "post" :action "/auth"}
               [:input {:type "text" :name "name" :placeholder "Login"}]
               [:input {:type "text" :name "password" :placeholder "Password"}]
               [:label "Avatar" [:input {:type "file" :name "avatar"}]]
-              [:input {:type "submit" :value "Sign In"}]
+              [:input.pull-right {:type "submit" :value "Sign In"}]
            ]))

@@ -8,7 +8,8 @@
             [simple-chat.account :as acc]
             [simple-chat.routes :as r]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            :reload-all))
 
 (defn handle-chat [{params :params :as req}]
   (httpkit/with-channel req ch

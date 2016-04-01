@@ -1,5 +1,30 @@
 .container{
-    width: 300px;
-    margin: 100px auto;
-    border: 1px solid #eee;
+  margin: 100px auto;
+  border: 1px solid #eee;
+  padding:20px;
+  border-radius: 10px;
+  width: 200px;
+}
+
+.login{
+  width: 200px;
+}
+
+.login input[type='text']{
+  padding: 3px;
+  border-radius: 3px;
+  margin:3px;
+}
+
+.pull-right{
+  float: right;
+}
+
+button{
+  padding:3px;
+  display:inline-block;
+}
+
+.clear{
+  clear: both;
 }
